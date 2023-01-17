@@ -9,9 +9,7 @@ def choose_keys(p1 = 31, p2 = 53):
     while(True):
         if(gcd(e, phi) == 1):
             break
-        e = e + 1
-
-    e = 67
+        e = e + 1    
 
     # d is the inverse of e in the context of mod phi
     # it was computed using a built in python function, it can also be determined from the extended
