@@ -59,21 +59,21 @@ def decode_code(code, block_size):
     return block
 
 
-def encrypt(message, public_key, block_size = 2, cypertext_block_size = 3):
+def encrypt(message, public_key, block_size = 2, ciphertext_block_size = 3):
     # split the message in blocks of size block_size
     blocks = [list(message)[i:i+block_size] for i in range(0, len(message), block_size)]
 
     codes = [encode_block(b, block_size) for b in blocks]
     encrypted_codes = [exponentiationModulo(m, public_key['e'], public_key['n']) for m in codes]
-    encrypted_message = ''.join([''.join(decode_code(c, cypertext_block_size)) for c in encrypted_codes])
+    encrypted_message = ''.join([''.join(decode_code(c, ciphertext_block_size)) for c in encrypted_codes])
     return encrypted_message
     
 
-def decrypt(message, private_key, block_size = 2, cypertext_block_size = 3):
-    # split the message in blocks of size cypertext_block_size
-    blocks = [list(message)[i:i+cypertext_block_size] for i in range(0, len(message), cypertext_block_size)]
+def decrypt(message, private_key, block_size = 2, ciphertext_block_size = 3):
+    # split the message in blocks of size ciphertext_block_size
+    blocks = [list(message)[i:i+ciphertext_block_size] for i in range(0, len(message), ciphertext_block_size)]
 
-    codes = [encode_block(b, cypertext_block_size) for b in blocks]
+    codes = [encode_block(b, ciphertext_block_size) for b in blocks]
     decrypted_codes = [exponentiationModulo(c, private_key['d'], private_key['n']) for c in codes]
     decrypted_message = ''.join([''.join(decode_code(c, block_size)) for c in decrypted_codes])
     return decrypted_message
