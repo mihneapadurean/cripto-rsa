@@ -1,15 +1,16 @@
 from modulo_helpers import exponentiationModulo, gcd
+import random
 
 # determines the public and private keys from the 2 input prime numbers
 def choose_keys(p1 = 31, p2 = 53):
     n = p1 * p2
     phi = (p1 - 1) * (p2 - 1)
 
-    e = 2
+    e = random.randrange(2, phi)
     while(True):
         if(gcd(e, phi) == 1):
             break
-        e = e + 1    
+        e = random.randrange(2, phi)
 
     # d is the inverse of e in the context of mod phi
     # it was computed using a built in python function, it can also be determined from the extended
