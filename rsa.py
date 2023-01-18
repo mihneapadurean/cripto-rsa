@@ -57,9 +57,19 @@ def decode_code(code, block_size):
 
     return block
 
+def validate_message(message):
+    for c in message:
+        if(c not in alphabet_map):
+            return False
+    return True
+
 
 def encrypt(message, public_key, block_size = 2, ciphertext_block_size = 3):
     # split the message in blocks of size block_size
+    if not validate_message(message):
+        print("The message is invalid")
+        return None
+
     blocks = [list(message)[i:i+block_size] for i in range(0, len(message), block_size)]
 
     codes = [encode_block(b, block_size) for b in blocks]
@@ -78,10 +88,11 @@ def decrypt(message, private_key, block_size = 2, ciphertext_block_size = 3):
     return decrypted_message
 
     
-message = 'algebra'
+message = 'A'
 (public_key, private_key) = choose_keys()
 encrypted_message = encrypt(message, public_key)
-print(f'Encrypted message: {encrypted_message}')
 
-decrypted_message = decrypt(encrypted_message, private_key)
-print(f'Decrypted message: {decrypted_message}')
+if(encrypted_message is not None):
+    print(f'Encrypted message: {encrypted_message}')
+    decrypted_message = decrypt(encrypted_message, private_key)
+    print(f'Decrypted message: {decrypted_message}')
